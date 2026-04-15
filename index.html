@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +32,58 @@
   --display: 'Bebas Neue', sans-serif;
 }
 
+/* ── LIGHT MODE OVERRIDES ── */
+[data-theme="light"] {
+  --bg:      #f5f4f4;
+  --bg2:     #ede9e9;
+  --bg3:     #e4dcdc;
+  --bg4:     #d9cfcf;
+  --surface: #ffffff;
+  --surface2:#f0eaea;
+  --border:  rgba(225,29,72,0.2);
+  --border2: rgba(0,0,0,0.08);
+  --text:    #120a0a;
+  --text2:   #3d2828;
+  --text3:   #7a5555;
+  --red-glow:rgba(225,29,72,0.12);
+}
+[data-theme="light"] body::before { opacity: 0.15; }
+[data-theme="light"] .pattern-bg  { opacity: 0.04; }
+[data-theme="light"] .code-wrap   { background: #1a1010; }
+[data-theme="light"] .db-block    { background: #1a1010; }
+[data-theme="light"] pre          { color: #d4c5c5; }
+[data-theme="light"] .comp-table tr:hover td,
+[data-theme="light"] .outcome-table tr:hover td { background: var(--bg2); }
+[data-theme="light"] .cmp-table tr:hover td     { background: rgba(0,0,0,0.02); }
+[data-theme="light"] .gantt-bar-label           { color: #fff; }
+[data-theme="light"] .ms-nav { background: var(--surface2); }
+
+/* ── THEME TOGGLE BUTTON (fixed, bottom-right) ── */
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+  color: var(--text3);
+}
+.theme-toggle-btn:hover { border-color: var(--red); color: var(--red); transform: scale(1.08); }
+.theme-toggle-btn svg { width: 18px; height: 18px; }
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+[data-theme="light"] .icon-sun  { display: block; }
+[data-theme="light"] .icon-moon { display: none; }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -43,6 +95,7 @@ body {
   font-size: 16px;
   line-height: 1.7;
   overflow-x: hidden;
+  transition: background 0.4s, color 0.4s;
 }
 
 /* ── NOISE OVERLAY ── */
@@ -1094,6 +1147,11 @@ footer {
 </style>
 </head>
 <body>
+
+<button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle light / dark mode" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
 
 <div class="pattern-bg"></div>
 
@@ -3596,6 +3654,18 @@ String <span class="fn">getCurrentDate</span>() {
 </footer>
 
 <script>
+// ── THEME ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('scTheme', next);
+}
+(function() {
+  const saved = localStorage.getItem('scTheme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
 // Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
