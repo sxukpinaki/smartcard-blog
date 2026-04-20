@@ -98,6 +98,60 @@ body {
   transition: background 0.4s, color 0.4s;
 }
 
+/* ── VIDEO DEMO ── */
+.video-section { padding: 80px 0; }
+.video-outer {
+  position: relative;
+  margin-top: 40px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--border2), 0 8px 48px rgba(225,29,72,0.10);
+  aspect-ratio: 16 / 9;
+}
+.video-outer::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(225,29,72,0.18) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+.video-outer iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+  border-radius: 14px;
+}
+.video-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+}
+.video-meta::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: vidPulse 1.8s ease-in-out infinite;
+}
+@keyframes vidPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(225,29,72,0.5); }
+  50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(225,29,72,0); }
+}
+
 /* ── NOISE OVERLAY ── */
 body::before {
   content: '';
@@ -1212,6 +1266,27 @@ footer {
     <circle cx="200" cy="195" r="10" stroke="#e11d48" stroke-width="1"/>
   </svg>
 </div>
+
+<!-- ══════════════════════════════════════════
+     PROJECT DEMO VIDEO
+══════════════════════════════════════════ -->
+<section id="demo">
+  <div class="wrap">
+    <div class="section-label">00 — Project Demo</div>
+    <h2 class="section-title">Watch It in Action</h2>
+    <p class="section-intro">A full walkthrough of the Smart Card RFID Canteen Management System — from card tap to transaction confirmation, OLED feedback, and the live web portals.</p>
+
+    <div class="video-outer reveal">
+      <iframe
+        src="https://www.youtube.com/embed/v8uXHsFMeIQ"
+        title="Smart Card — RFID Canteen Management System Demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <div class="video-meta">LIVE DEMO · SMART CARD RFID SYSTEM · ESP32 + FIREBASE + PWA</div>
+  </div>
+</section>
 
 <!-- ══════════════════════════════════════════
      PROBLEM STATEMENT
